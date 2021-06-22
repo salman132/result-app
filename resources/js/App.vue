@@ -3,7 +3,7 @@
 
         <Spinner v-if="loading"></Spinner>
         <div v-else="initiate">
-            <router-view :app="this"></router-view>
+            <router-view></router-view>
         </div>
 
     </div>
@@ -23,9 +23,6 @@ export default {
             user: null,
             loading: false,
             initiate: false,
-            req: axios.create({
-                baseUrl: this.BASE_URL
-            })
         }
     },
     created() {

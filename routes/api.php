@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+Route::group(['middleware'=>'auth:api'],function (){
+    Route::get('user',function (){
+        return request()->user();
+    });
+    Route::get('init',[\App\Http\Controllers\ApiLoginController::class,'init']);
 });
+
+Route::apiResources([
+    'exam_type'=> \App\Http\Controllers\ExamTypesController::class,
+]);
+
+
+Route::post('pre-login',[\App\Http\Controllers\ApiLoginController::class,'beforeLogin']);
+Route::post('send_sms',[\App\Http\Controllers\ApiLoginController::class,'sendSms']);
+Route::post('login',[\App\Http\Controllers\ApiLoginController::class,'login']);

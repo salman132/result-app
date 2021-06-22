@@ -1,21 +1,30 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+window.Vue = require('vue');
+
 
 import Vue from 'vue'
+import store from './store';
 import App from "./App.vue";
 import Spinner from 'vue-simple-spinner'
-import Welcome from "./components/Welcome";
+import Login from "./components/Login";
 import routes from "./router/router"
+
+
 
 
 
 new Vue({
     router:routes,
+    store,
     components:{
-        Welcome: Welcome,
-        App: App,
-        Spinner: Spinner
+        Welcome: Login,
+        Spinner: Spinner,
+
+        components: { App },
     },
     render: h =>h(App)
 }).$mount('#app');
+
+

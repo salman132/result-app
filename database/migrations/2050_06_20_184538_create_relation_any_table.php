@@ -14,7 +14,7 @@ class CreateRelationAnyTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('exam_type')->nullable()->constrained('exam_types');
+            $table->foreignId('exam_type')->after('phone_number')->nullable()->constrained('exam_types');
         });
     }
 
