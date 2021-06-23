@@ -1978,7 +1978,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.actionSetExamType();
     this.actionCheckAuthStatus().then(function () {
-      if (_this.$store.getters.GET_AUTH_STATUS) {
+      if (_this.$store.state.user.auth) {
         //passed
         _this.$router.push({
           name: 'Result'
@@ -2046,6 +2046,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Pin.vue",
   data: function data() {
@@ -2092,8 +2093,12 @@ __webpack_require__.r(__webpack_exports__);
         if (!response.data.status) {
           _this3.message = response.data.token;
         } else {
-          console.log(response.data.token);
+          _this3.$store.state.user.auth = true;
           localStorage.setItem('token', response.data.token);
+
+          _this3.$router.push({
+            name: 'Result'
+          });
         }
       })["catch"](function (error) {
         _this3.message = error.message;
@@ -2129,6 +2134,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2171,7 +2184,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Results"
+  name: "Results",
+  data: function data() {
+    return {
+      user_data: []
+    };
+  },
+  created: function created() {
+    this.getResult();
+  },
+  methods: {
+    getResult: function getResult() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var url, token, config;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                url = '/api/result_data';
+                token = localStorage.getItem('token');
+
+                if (!(typeof token == 'undefined' || token == null)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 4:
+                config = {
+                  headers: {
+                    'Authorization': token
+                  }
+                };
+                _context.next = 7;
+                return axios.get(url, config).then(function (response) {
+                  _this.user_data = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    logout: function logout() {
+      var _this2 = this;
+
+      var url = '/api/logout';
+      var token = localStorage.getItem('token');
+
+      if (typeof token == 'undefined' || token == null) {
+        return false;
+      }
+
+      var config = {
+        headers: {
+          'Authorization': token
+        }
+      };
+      axios.get(url, config).then(function (response) {
+        _this2.$store.state.user.auth = false;
+        localStorage.removeItem('token');
+
+        _this2.$router.push({
+          name: 'Login'
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2278,7 +2367,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Login__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Login */ "./resources/js/components/Login.vue");
 /* harmony import */ var _components_Pin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Pin */ "./resources/js/components/Pin.vue");
 /* harmony import */ var _components_Results__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Results */ "./resources/js/components/Results.vue");
-/* harmony import */ var _store_modules_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/modules/auth */ "./resources/js/store/modules/auth.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 
 
 
@@ -2311,7 +2400,9 @@ routes.beforeEach(function (to, from, next) {
     return rec.meta.requiresAuth;
   })) {
     //Check auth state
-    if (_store_modules_auth__WEBPACK_IMPORTED_MODULE_3__.default.getters.GET_AUTH_STATUS) {
+    console.log(_store__WEBPACK_IMPORTED_MODULE_3__.default.dispatch('actionCheckAuthStatus'));
+
+    if (_store__WEBPACK_IMPORTED_MODULE_3__.default.state.user.auth) {
       //passed
       next();
     } else {
@@ -2355,7 +2446,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
   actions: {},
   modules: {
     examType: _modules_examType__WEBPACK_IMPORTED_MODULE_2__.default,
-    auth: _modules_auth__WEBPACK_IMPORTED_MODULE_3__.default
+    user: _modules_auth__WEBPACK_IMPORTED_MODULE_3__.default
   }
 }));
 
@@ -2382,7 +2473,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    auth: false
+    auth: true
   },
   getters: {
     GET_AUTH_STATUS: function GET_AUTH_STATUS(state) {
@@ -2406,34 +2497,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 url = '/api/init';
                 token = localStorage.getItem('token');
 
-                if (!(typeof token == 'undefined' || token == null)) {
-                  _context.next = 5;
-                  break;
+                if (typeof token == 'undefined' || token == null) {
+                  commit('SET_AUTH_STATUS', false);
                 }
 
-                return _context.abrupt("return", false);
-
-              case 5:
                 config = {
                   headers: {
                     'Authorization': token
                   }
                 };
                 _context.t0 = commit;
-                _context.next = 9;
+                _context.next = 8;
                 return axios.get(url, config).then(function (response) {
                   if (response.data.status) {
                     return true;
                   } else {
                     return false;
                   }
+                })["catch"](function (error) {
+                  return false;
                 });
 
-              case 9:
+              case 8:
                 _context.t1 = _context.sent;
                 (0, _context.t0)('SET_AUTH_STATUS', _context.t1);
 
-              case 11:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -39781,61 +39870,108 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c("div", { staticClass: "card-title" }, [
+        _vm.user_data.name
+          ? _c("div", { staticClass: "text-success" }, [
+              _vm._v(
+                "\n                Name: " +
+                  _vm._s(_vm.user_data.name) +
+                  "\n            "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-right" }, [
+          _c(
+            "a",
+            {
+              staticClass: "text-danger",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout.apply(null, arguments)
+                }
+              }
+            },
+            [_vm._v("\n                    Logout\n                ")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.user_data.registration_number
+        ? _c("h5", [
+            _vm._v(
+              "Registration Number: " +
+                _vm._s(_vm.user_data.registration_number)
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.user_data.exam_type
+        ? _c("h5", [
+            _vm._v("Exam Type: " + _vm._s(_vm.user_data.exam_type.title))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.user_data.user_profile
+        ? _c("h6", [
+            _vm._v("Gender: " + _vm._s(_vm.user_data.user_profile.gender) + " ")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.user_data.user_profile
+        ? _c("h6", [
+            _vm._v("Email: " + _vm._s(_vm.user_data.user_profile.email) + " ")
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("table", { staticClass: "table table-success" }, [
+        _c(
+          "tbody",
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.user_data.results, function(result, index) {
+              return _c("tr", { key: index }, [
+                result.exam.courses
+                  ? _c("th", [_vm._v(_vm._s(result.exam.courses.title))])
+                  : _vm._e(),
+                _vm._v(" "),
+                result.score
+                  ? _c("td", [_vm._v(_vm._s(result.score))])
+                  : _vm._e(),
+                _vm._v(" "),
+                result.grade
+                  ? _c(
+                      "td",
+                      { class: result.grade == "F" ? "text-danger" : "" },
+                      [_vm._v(_vm._s(result.grade))]
+                    )
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("div", { staticClass: "card-title" }, [
-          _c("div", { staticClass: "text-success" }, [
-            _vm._v("\n                Name: Salman Rahman Auvi\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-right" }, [
-            _c("a", { staticClass: "text-danger " }, [
-              _vm._v("\n                    logout\n                ")
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("h5", [_vm._v("Age: 20")]),
-        _vm._v(" "),
-        _c("h6", [_vm._v("HSC 2021")])
-      ]),
+    return _c("tr", [
+      _c("th", [_vm._v("Subject")]),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("table", { staticClass: "table table-success" }, [
-          _c("tbody", [
-            _c("tr", [
-              _c("th", [_vm._v("Subject")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Score")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Grade")])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("English")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Score")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Grade")])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("th", [_vm._v("Math")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Score")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("Grade")])
-            ])
-          ])
-        ])
-      ])
+      _c("th", [_vm._v("Score")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Grade")])
     ])
   }
 ]

@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Login from "../components/Login";
 import Pin from "../components/Pin";
 import Results from "../components/Results";
-import auth from "../store/modules/auth";
+import store from '../store';
+
 
 Vue.use(VueRouter)
 const routes = new VueRouter({
@@ -35,12 +36,14 @@ routes.beforeEach((to,from,next) =>{
     if(to.matched.some(rec=>rec.meta.requiresAuth)){
         //Check auth state
 
-        if(auth.getters.GET_AUTH_STATUS){
+        console.log(store.dispatch('actionCheckAuthStatus'))
+        if(store.state.user.auth){
             //passed
             next()
         }
         else{
             //Denied
+
             next({name: 'Login'})
         }
     }

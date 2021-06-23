@@ -63,7 +63,8 @@ export default {
 
         this.actionSetExamType();
         this.actionCheckAuthStatus().then(()=>{
-            if(this.$store.getters.GET_AUTH_STATUS){
+
+            if(this.$store.state.user.auth){
                 //passed
                 this.$router.push({name: 'Result'})
             }

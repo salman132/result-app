@@ -1,7 +1,7 @@
 
 export default {
     state: {
-        auth:false,
+        auth:true,
 
 
     },
@@ -24,7 +24,7 @@ export default {
             const url = '/api/init';
             const token = localStorage.getItem('token');
             if(typeof token == 'undefined' || token ==null){
-                return false;
+                commit('SET_AUTH_STATUS',false)
             }
             let config = {
                 headers: {
@@ -39,6 +39,8 @@ export default {
                     else{
                         return false;
                     }
+                }).catch(error =>{
+                    return false;
                 })
             )
         },

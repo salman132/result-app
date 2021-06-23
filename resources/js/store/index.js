@@ -22,7 +22,7 @@ export default new Vuex.Store({
 
     modules: {
         examType: examType,
-        auth: auth,
+        user: auth,
 
     }
 

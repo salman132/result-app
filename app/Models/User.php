@@ -60,4 +60,14 @@ class User extends Authenticatable
 
         return $phone;
     }
+
+    public function same_type_exam(){
+        return $this->hasMany(Exam::class,'exam_type_id','exam_type');
+    }
+    public function results(){
+        return $this->hasMany(Result::class);
+    }
+    public function exam_type(){
+        return $this->belongsTo(ExamType::class,'exam_type','id');
+    }
 }

@@ -21,6 +21,8 @@ Route::group(['middleware'=>'auth:api'],function (){
         return request()->user();
     });
     Route::get('init',[\App\Http\Controllers\ApiLoginController::class,'init']);
+    Route::get('result_data',[\App\Http\Controllers\ApiResusltController::class,'index']);
+    Route::get('logout',[\App\Http\Controllers\ApiLoginController::class,'logout']);
 });
 
 Route::apiResources([

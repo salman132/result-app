@@ -16,15 +16,15 @@ class ExamTypesSeeder extends Seeder
     {
         $exam_types = array(
             [
-                'title'=> 'SSC',
+                'title' => 'SSC',
                 'description' => 'This is SSC level'
             ],
             [
-            'title'=> 'HSC',
-            'description' => 'This is HSC level'
+                'title' => 'HSC',
+                'description' => 'This is HSC level'
             ]
         );
-        foreach ($exam_types as $exam){
+        foreach ($exam_types as $exam) {
 
             $exam_type = new ExamType();
             $exam_type->fill($exam)->save();

@@ -70,7 +70,9 @@ class ApiLoginController extends Controller
 
 
     public function logout(Request $request){
+        dd($request);
         $request->user()->token()->revoke();
+        Auth::logout();
 
         return response()->json([
             'message' => 'Successfully logged out'

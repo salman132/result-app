@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     name: "Pin.vue",
     data(){
@@ -59,8 +60,9 @@ export default {
 
                 }
                 else {
-                    console.log(response.data.token)
+                    this.$store.state.user.auth = true;
                     localStorage.setItem('token',response.data.token)
+                    this.$router.push({name: 'Result'})
 
                 }
 
