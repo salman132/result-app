@@ -10,6 +10,7 @@ Students can submit their registration number and exam type (SSC/HSC), the syste
     <li>npm install</li>
     <li>npm run dev/watch</li>
     <li>php artisan migrate</li>
+    <li>php artisan passport:install</li>
     <li>php artisan serve</li>
 </ul>
 
