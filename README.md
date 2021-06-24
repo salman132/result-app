@@ -9,6 +9,7 @@ registered mobile number. After the student inputs the PIN in the app, he/she wi
     <li>npm install</li>
     <li>npm run dev/watch</li>
     <li>php artisan migrate</li>
+    <li>php artisan db:seed</li>
     <li>php artisan passport:install</li>
     <li>php artisan serve</li>
 </ul>
