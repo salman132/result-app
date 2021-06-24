@@ -30,6 +30,9 @@ registered mobile number. After the student inputs the PIN in the app, he/she wi
     Sample User:
     - Level: SSC
     - Registration Number: 1321305
+       <hr>
+    Level: HSC
+    - Registration Number: 1321306
 <note>
 Then it will ask for you a PIN number which is a random number.System will auto fill it up for you.<br>
 After all the step you can get token in the response. <br>
