@@ -49,7 +49,7 @@ After all the step you can get token in the response. <br>
     </li>
     <li>
         <code>
-            - Method: GET  http://127.0.0.1:8000/api/pre-login
+            - Method: POST  http://127.0.0.1:8000/api/pre-login
         </code>
     </li>
     <li>
